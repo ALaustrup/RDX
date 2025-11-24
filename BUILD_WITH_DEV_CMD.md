@@ -29,6 +29,14 @@ rmdir /s /q tests
 
 ### Step 4: Configure CMake
 
+**Option A: Single line (copy-paste friendly)**
+
+```cmd
+cmake .. -G "Visual Studio 17 2022" -A x64 -DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake -Dunofficial-sqlite3_DIR=C:\vcpkg\packages\sqlite3_x64-windows\share\unofficial-sqlite3 -DCMAKE_PREFIX_PATH=C:\Qt\6.10.1\msvc2022_64 -DQt6_DIR=C:\Qt\6.10.1\msvc2022_64\lib\cmake\Qt6
+```
+
+**Option B: Multi-line (easier to read)**
+
 ```cmd
 cmake .. -G "Visual Studio 17 2022" -A x64 ^
   -DCMAKE_TOOLCHAIN_FILE=C:\vcpkg\scripts\buildsystems\vcpkg.cmake ^
