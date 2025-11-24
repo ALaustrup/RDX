@@ -23,8 +23,12 @@ target_include_directories(rdx_gui PRIVATE
 )
 
 # MSVC needs /Zc:__cplusplus for Qt
+# Also add /permissive- to work around some Qt6 template issues
 if(MSVC)
-    target_compile_options(rdx_gui PRIVATE /Zc:__cplusplus)
+    target_compile_options(rdx_gui PRIVATE 
+        /Zc:__cplusplus
+        /permissive-
+    )
 endif()
 
 target_link_libraries(rdx_gui PRIVATE
