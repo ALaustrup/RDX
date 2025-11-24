@@ -1,0 +1,15 @@
+#ifndef RDX_CORE_EXPORT_H
+#define RDX_CORE_EXPORT_H
+
+#if defined(_WIN32) && defined(RDX_CORE_SHARED)
+    #ifdef rdx_core_EXPORTS
+        #define RDX_CORE_EXPORT __declspec(dllexport)
+    #else
+        #define RDX_CORE_EXPORT __declspec(dllimport)
+    #endif
+#else
+    #define RDX_CORE_EXPORT
+#endif
+
+#endif // RDX_CORE_EXPORT_H
+
