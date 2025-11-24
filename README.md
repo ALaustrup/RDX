@@ -89,6 +89,10 @@ cmake --build .
 - `BUILD_TESTS=ON` (default): Build test suite
 - `BUILD_GUI=ON` (default): Build Qt6 GUI application
 
+## Quick Start
+
+See [QUICKSTART.md](QUICKSTART.md) for a quick guide to get started.
+
 ## Usage
 
 ### GUI Application
@@ -96,7 +100,8 @@ cmake --build .
 Run the GUI application:
 
 ```bash
-./rdx_gui
+./rdx_gui  # Linux/macOS
+.\rdx_gui.exe  # Windows
 ```
 
 The GUI provides:
