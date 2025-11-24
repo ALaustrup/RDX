@@ -2,6 +2,7 @@
 <RCC version="1.0">
     <qresource prefix="/">
         <file>RdxMainWindow.qml</file>
+        <file>RdxMainWindow_minimal.qml</file>
         <file>JobListView.qml</file>
         <file>FileChooserView.qml</file>
         <file>CorpusDashboardView.qml</file>

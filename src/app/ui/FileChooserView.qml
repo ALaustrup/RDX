@@ -1,6 +1,6 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Dialogs 1.3
+import QtQuick 6.0
+import QtQuick.Controls 6.0
+import Qt.labs.platform 1.1 as Platform
 
 Dialog {
     id: fileChooserDialog
@@ -62,16 +62,17 @@ Dialog {
         }
     }
 
-    FileDialog {
+    Platform.FileDialog {
         id: fileDialog
         title: "Select Files"
-        selectMultiple: true
+        fileMode: Platform.FileDialog.OpenFiles
     }
 
-    FileDialog {
+    Platform.FileDialog {
         id: archiveDialog
         title: "Select Archive"
         nameFilters: ["RDX Archives (*.rdx)"]
+        fileMode: Platform.FileDialog.OpenFile
     }
 }
 

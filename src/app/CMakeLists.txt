@@ -36,6 +36,7 @@ target_link_libraries(rdx_gui PRIVATE
     Qt6::Core
     Qt6::Quick
     Qt6::Qml
+    Qt6::QuickControls2
 )
 
 # Set QML import path

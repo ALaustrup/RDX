@@ -10,7 +10,7 @@ option(BUILD_TESTS "Build test suite" ON)
 option(BUILD_GUI "Build Qt6 GUI application" ON)
 
 # Find dependencies
-find_package(Qt6 REQUIRED COMPONENTS Core Quick Qml)
+find_package(Qt6 REQUIRED COMPONENTS Core Quick Qml QuickControls2)
 
 # Find SQLite3 - try vcpkg's unofficial-sqlite3 first, then standard find
 # vcpkg provides it as unofficial-sqlite3, set the path explicitly if using vcpkg
