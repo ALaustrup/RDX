@@ -4,25 +4,28 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-# QML resources
-qt_add_resources(app_resources
-    PREFIX "/"
-    FILES
-        ui/RdxMainWindow.qml
-        ui/JobListView.qml
-        ui/FileChooserView.qml
-        ui/CorpusDashboardView.qml
-        ui/SettingsView.qml
-)
-
 # GUI application
 add_executable(rdx_gui
     main.cpp
     viewmodels/JobViewModel.cpp
     viewmodels/LCMStatsViewModel.cpp
     controllers/CompressionController.cpp
-    ${app_resources}
+    ui/qml.qrc
+    ui/RdxMainWindow.qml
+    ui/JobListView.qml
+    ui/FileChooserView.qml
+    ui/CorpusDashboardView.qml
+    ui/SettingsView.qml
 )
+
+target_include_directories(rdx_gui PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+# MSVC needs /Zc:__cplusplus for Qt
+if(MSVC)
+    target_compile_options(rdx_gui PRIVATE /Zc:__cplusplus)
+endif()
 
 target_link_libraries(rdx_gui PRIVATE
     rdx_core

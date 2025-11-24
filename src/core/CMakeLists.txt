@@ -27,14 +27,30 @@ target_include_directories(rdx_core PUBLIC
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-target_link_libraries(rdx_core PUBLIC
-    SQLite::SQLite3
-    ${ZSTD_LIBRARY}
-)
+# Add zstd include directory if using vcpkg
+if(TARGET zstd::libzstd)
+    get_target_property(ZSTD_INCLUDE_DIR zstd::libzstd INTERFACE_INCLUDE_DIRECTORIES)
+    if(ZSTD_INCLUDE_DIR)
+        target_include_directories(rdx_core PUBLIC ${ZSTD_INCLUDE_DIR})
+    endif()
+elseif(ZSTD_INCLUDE_DIR)
+    target_include_directories(rdx_core PUBLIC ${ZSTD_INCLUDE_DIR})
+endif()
 
-target_include_directories(rdx_core PUBLIC
-    ${ZSTD_INCLUDE_DIR}
-)
+# Link libraries - use targets if available, otherwise fall back to variables
+if(TARGET SQLite::SQLite3)
+    target_link_libraries(rdx_core PUBLIC SQLite::SQLite3)
+elseif(SQLite3_LIBRARY)
+    target_link_libraries(rdx_core PUBLIC ${SQLite3_LIBRARY})
+    target_include_directories(rdx_core PUBLIC ${SQLite3_INCLUDE_DIR})
+endif()
+
+if(TARGET zstd::libzstd)
+    target_link_libraries(rdx_core PUBLIC zstd::libzstd)
+elseif(ZSTD_LIBRARY)
+    target_link_libraries(rdx_core PUBLIC ${ZSTD_LIBRARY})
+    target_include_directories(rdx_core PUBLIC ${ZSTD_INCLUDE_DIR})
+endif()
 
 # Export header for symbol visibility
 configure_file(

@@ -44,8 +44,7 @@ ParsedRepresentation JSONParser::parse(const std::filesystem::path& path) {
     jsonField.name = "json_value";
     jsonField.kind = FieldKind::String;
     
-    // Convert to bytes for storage
-    std::vector<std::byte> jsonBytes(jsonStr.begin(), jsonStr.end());
+    // Store as string (no need to convert to bytes here)
     jsonField.value = std::string(jsonStr);
     
     result.fields.push_back(jsonField);

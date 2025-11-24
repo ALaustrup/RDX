@@ -7,6 +7,10 @@
 #include <fstream>
 
 namespace rdx::core {
+    class DecompressionEngine;
+}
+
+namespace rdx::core {
 
 class RDXReader {
 public:

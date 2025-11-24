@@ -120,7 +120,11 @@ CompressionResult CompressionEngine::compressFile(const std::filesystem::path& i
     // For now, serialize parsed representation as JSON-like structure (simplified)
     // In production, use proper encoding with arithmetic coding or similar
     std::string structData = "{\"schema\":" + std::to_string(schemaId) + "}";
-    std::vector<std::byte> structBytes(structData.begin(), structData.end());
+    std::vector<std::byte> structBytes;
+    structBytes.reserve(structData.size());
+    for (char c : structData) {
+        structBytes.push_back(static_cast<std::byte>(c));
+    }
     
     // Compress structural data
     if (!structBytes.empty()) {

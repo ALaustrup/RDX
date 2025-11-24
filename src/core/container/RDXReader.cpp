@@ -27,7 +27,7 @@ void RDXReader::readHeader() {
     std::uint32_t magic;
     file_.read(reinterpret_cast<char*>(&magic), sizeof(magic));
     
-    if (magic != RDXWriter::RDX_MAGIC) {
+    if (magic != RDXWriter::getMagic()) {
         throw std::runtime_error("Invalid RDX file magic number");
     }
     

@@ -33,6 +33,9 @@ public:
     void finalize();
     
     const std::vector<RDXEntry>& getEntries() const { return entries_; }
+    
+    // Make magic accessible for readers
+    static std::uint32_t getMagic() { return RDX_MAGIC; }
 
 private:
     std::filesystem::path outputPath_;

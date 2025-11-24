@@ -11,7 +11,11 @@ namespace rdx::core {
 std::string computeSHA256(std::span<const std::byte> data) {
     // Simplified: use std::hash for now (in production, use proper SHA-256)
     std::hash<std::string> hasher;
-    std::string str(reinterpret_cast<const char*>(data.data()), data.size());
+    std::string str;
+    str.reserve(data.size());
+    for (const std::byte& b : data) {
+        str.push_back(static_cast<char>(b));
+    }
     std::size_t hash = hasher(str);
     
     std::ostringstream oss;
@@ -30,7 +34,8 @@ std::array<std::byte, 32> computeSHA256Binary(std::span<const std::byte> data) {
     
     for (std::size_t i = 0; i < 32 && i * 2 < hashStr.length(); ++i) {
         std::string byteStr = hashStr.substr(i * 2, 2);
-        result[i] = static_cast<std::byte>(std::stoul(byteStr, nullptr, 16));
+        unsigned long val = std::stoul(byteStr, nullptr, 16);
+        result[i] = static_cast<std::byte>(val);
     }
     
     return result;

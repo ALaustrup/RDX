@@ -11,6 +11,7 @@
 #include <cstddef>
 
 struct sqlite3;
+struct sqlite3_stmt;
 
 namespace rdx::core {
 

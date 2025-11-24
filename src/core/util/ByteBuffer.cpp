@@ -6,8 +6,11 @@ ByteBuffer::ByteBuffer(std::size_t initialCapacity) {
     data_.reserve(initialCapacity);
 }
 
-ByteBuffer::ByteBuffer(std::span<const std::byte> data)
-    : data_(data.begin(), data.end()) {
+ByteBuffer::ByteBuffer(std::span<const std::byte> data) {
+    data_.reserve(data.size());
+    for (const std::byte& b : data) {
+        data_.push_back(b);
+    }
 }
 
 void ByteBuffer::append(std::span<const std::byte> data) {
