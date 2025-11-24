@@ -1,5 +1,11 @@
 # RDX - Schema-Aware Compression Engine & Archive Format
 
+[![CI](https://github.com/ALaustrup/RDX/actions/workflows/ci.yml/badge.svg)](https://github.com/ALaustrup/RDX/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/ALaustrup/RDX/actions/workflows/codeql.yml/badge.svg)](https://github.com/ALaustrup/RDX/actions/workflows/codeql.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![C++20](https://img.shields.io/badge/C++-20-blue.svg)](https://en.cppreference.com/w/cpp/20)
+[![Qt6](https://img.shields.io/badge/Qt-6-green.svg)](https://www.qt.io/)
+
 RDX is a next-generation compression system that uses **constraint-aware, schema-driven, corpus-learning** architecture to achieve superior compression ratios for structured data formats.
 
 ## Overview
@@ -30,7 +36,28 @@ RDX differs from traditional compression algorithms by:
 - SQLite3
 - zstd library
 
-#### Installing Dependencies
+#### Quick Install (Automated)
+
+We provide installation scripts for convenience:
+
+**Windows (PowerShell):**
+```powershell
+.\scripts\install-dependencies-windows.ps1
+```
+
+**Linux:**
+```bash
+chmod +x scripts/install-dependencies-linux.sh
+./scripts/install-dependencies-linux.sh
+```
+
+**macOS:**
+```bash
+chmod +x scripts/install-dependencies-macos.sh
+./scripts/install-dependencies-macos.sh
+```
+
+#### Installing Dependencies (Manual)
 
 **Windows:**
 - Install Qt6 from https://www.qt.io/download
