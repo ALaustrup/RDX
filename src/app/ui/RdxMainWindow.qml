@@ -10,10 +10,7 @@ ApplicationWindow {
     visible: true
     title: "RDX - Schema-Aware Compression"
 
-    // Dark theme
-    color: "#1a1a1a"
-
-    // Theme colors
+    // Dark theme colors
     readonly property color bgDark: "#1a1a1a"
     readonly property color bgMedium: "#252525"
     readonly property color bgLight: "#2d2d2d"
@@ -25,13 +22,9 @@ ApplicationWindow {
     readonly property color textSecondary: "#b0b0b0"
     readonly property color textTertiary: "#808080"
 
-    menuBar: MenuBar {
-        background: Rectangle {
-            color: bgMedium
-            border.color: accentBlue
-            border.width: 1
-        }
+    color: bgDark
 
+    menuBar: MenuBar {
         Menu {
             title: "File"
             Action {
@@ -73,7 +66,7 @@ ApplicationWindow {
         anchors.fill: parent
         spacing: 0
 
-        // Left Sidebar with colorful edge
+        // Left Sidebar
         Rectangle {
             Layout.preferredWidth: 240
             Layout.fillHeight: true
@@ -86,7 +79,7 @@ ApplicationWindow {
                 anchors.margins: 12
                 spacing: 8
 
-                // Logo/Title area
+                // Logo
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 60
@@ -103,120 +96,123 @@ ApplicationWindow {
                     }
                 }
 
-                // Action buttons
-                Button {
+                // Compress button
+                Rectangle {
                     id: compressBtn
                     Layout.fillWidth: true
                     Layout.preferredHeight: 50
-                    text: "📦 Compress"
-                    font.pixelSize: 14
-                    font.bold: true
+                    color: compressBtnMouseArea.containsMouse ? bgLight : bgMedium
+                    border.color: compressBtnMouseArea.containsMouse ? accentGreen : accentBlue
+                    border.width: 1
+                    radius: 4
 
-                    background: Rectangle {
-                        color: compressBtn.hovered ? bgLight : bgMedium
-                        border.color: compressBtn.hovered ? accentGreen : accentBlue
-                        border.width: 1
-                        radius: 4
-                    }
-
-                    contentItem: Text {
-                        text: compressBtn.text
+                    Text {
+                        anchors.centerIn: parent
+                        text: "📦 Compress"
+                        font.pixelSize: 14
+                        font.bold: true
                         color: textPrimary
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
                     }
 
-                    onClicked: {
-                        fileChooserView.isDecompress = false
-                        fileChooserView.inputPathField.text = ""
-                        fileChooserView.outputPathField.text = ""
-                        fileChooserView.visible = true
+                    MouseArea {
+                        id: compressBtnMouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: {
+                            fileChooserView.isDecompress = false
+                            fileChooserView.inputPathField.text = ""
+                            fileChooserView.outputPathField.text = ""
+                            fileChooserView.visible = true
+                        }
                     }
                 }
 
-                Button {
+                // Decompress button
+                Rectangle {
                     id: decompressBtn
                     Layout.fillWidth: true
                     Layout.preferredHeight: 50
-                    text: "📂 Decompress"
-                    font.pixelSize: 14
-                    font.bold: true
+                    color: decompressBtnMouseArea.containsMouse ? bgLight : bgMedium
+                    border.color: decompressBtnMouseArea.containsMouse ? accentOrange : accentPurple
+                    border.width: 1
+                    radius: 4
 
-                    background: Rectangle {
-                        color: decompressBtn.hovered ? bgLight : bgMedium
-                        border.color: decompressBtn.hovered ? accentOrange : accentPurple
-                        border.width: 1
-                        radius: 4
-                    }
-
-                    contentItem: Text {
-                        text: decompressBtn.text
+                    Text {
+                        anchors.centerIn: parent
+                        text: "📂 Decompress"
+                        font.pixelSize: 14
+                        font.bold: true
                         color: textPrimary
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
                     }
 
-                    onClicked: {
-                        fileChooserView.isDecompress = true
-                        fileChooserView.inputPathField.text = ""
-                        fileChooserView.outputPathField.text = ""
-                        fileChooserView.visible = true
+                    MouseArea {
+                        id: decompressBtnMouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: {
+                            fileChooserView.isDecompress = true
+                            fileChooserView.inputPathField.text = ""
+                            fileChooserView.outputPathField.text = ""
+                            fileChooserView.visible = true
+                        }
                     }
                 }
 
                 Item { Layout.fillHeight: true }
 
-                Button {
+                // Dashboard button
+                Rectangle {
                     id: dashboardBtn
                     Layout.fillWidth: true
                     Layout.preferredHeight: 45
-                    text: "📊 Dashboard"
-                    font.pixelSize: 13
+                    color: dashboardBtnMouseArea.containsMouse ? bgLight : bgMedium
+                    border.color: "#00bcd4"
+                    border.width: 1
+                    radius: 4
 
-                    background: Rectangle {
-                        color: dashboardBtn.hovered ? bgLight : bgMedium
-                        border.color: "#00bcd4"
-                        border.width: 1
-                        radius: 4
-                    }
-
-                    contentItem: Text {
-                        text: dashboardBtn.text
+                    Text {
+                        anchors.centerIn: parent
+                        text: "📊 Dashboard"
+                        font.pixelSize: 13
                         color: textSecondary
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
                     }
 
-                    onClicked: corpusDashboardView.visible = true
+                    MouseArea {
+                        id: dashboardBtnMouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: corpusDashboardView.visible = true
+                    }
                 }
 
-                Button {
+                // Settings button
+                Rectangle {
                     id: settingsBtn
                     Layout.fillWidth: true
                     Layout.preferredHeight: 45
-                    text: "⚙️ Settings"
-                    font.pixelSize: 13
+                    color: settingsBtnMouseArea.containsMouse ? bgLight : bgMedium
+                    border.color: textTertiary
+                    border.width: 1
+                    radius: 4
 
-                    background: Rectangle {
-                        color: settingsBtn.hovered ? bgLight : bgMedium
-                        border.color: textTertiary
-                        border.width: 1
-                        radius: 4
-                    }
-
-                    contentItem: Text {
-                        text: settingsBtn.text
+                    Text {
+                        anchors.centerIn: parent
+                        text: "⚙️ Settings"
+                        font.pixelSize: 13
                         color: textSecondary
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
                     }
 
-                    onClicked: settingsView.visible = true
+                    MouseArea {
+                        id: settingsBtnMouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: settingsView.visible = true
+                    }
                 }
             }
         }
 
-        // Main content area
+        // Main content
         Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -267,7 +263,7 @@ ApplicationWindow {
         }
     }
 
-    // File Chooser Dialog with dark theme
+    // File Chooser Dialog
     Dialog {
         id: fileChooserView
         title: "Select Files to Compress"
@@ -277,12 +273,6 @@ ApplicationWindow {
         modal: true
 
         property bool isDecompress: false
-
-        background: Rectangle {
-            color: bgMedium
-            border.color: accentBlue
-            border.width: 2
-        }
 
         ColumnLayout {
             anchors.fill: parent
@@ -317,31 +307,12 @@ ApplicationWindow {
                     id: inputPathField
                     Layout.fillWidth: true
                     placeholderText: fileChooserView.isDecompress ? "Path to .rdx archive..." : "Path to file(s) to compress..."
-                    background: Rectangle {
-                        color: bgDark
-                        border.color: accentPurple
-                        border.width: 1
-                        radius: 4
-                    }
                     color: textPrimary
-                    placeholderTextColor: textTertiary
                 }
 
                 Button {
                     text: "Browse..."
                     Layout.preferredWidth: 100
-                    background: Rectangle {
-                        color: bgLight
-                        border.color: accentGreen
-                        border.width: 1
-                        radius: 4
-                    }
-                    contentItem: Text {
-                        text: parent.text
-                        color: textPrimary
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
                     onClicked: {
                         console.log("File browser - to be implemented via C++ backend")
                     }
@@ -359,14 +330,7 @@ ApplicationWindow {
                 id: outputPathField
                 Layout.fillWidth: true
                 placeholderText: fileChooserView.isDecompress ? "Extract to folder..." : "Save archive as..."
-                background: Rectangle {
-                    color: bgDark
-                    border.color: accentOrange
-                    border.width: 1
-                    radius: 4
-                }
                 color: textPrimary
-                placeholderTextColor: textTertiary
             }
 
             Item { Layout.fillHeight: true }
@@ -380,18 +344,6 @@ ApplicationWindow {
                 Button {
                     text: "Cancel"
                     Layout.preferredWidth: 100
-                    background: Rectangle {
-                        color: bgLight
-                        border.color: textTertiary
-                        border.width: 1
-                        radius: 4
-                    }
-                    contentItem: Text {
-                        text: parent.text
-                        color: textSecondary
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
                     onClicked: fileChooserView.close()
                 }
 
@@ -399,19 +351,6 @@ ApplicationWindow {
                     text: "OK"
                     Layout.preferredWidth: 100
                     enabled: inputPathField.text !== "" && outputPathField.text !== ""
-                    background: Rectangle {
-                        color: parent.enabled ? (parent.hovered ? accentGreen : accentBlue) : bgLight
-                        border.color: parent.enabled ? accentBlue : textTertiary
-                        border.width: 1
-                        radius: 4
-                    }
-                    contentItem: Text {
-                        text: parent.text
-                        color: parent.enabled ? textPrimary : textTertiary
-                        font.bold: true
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
                     onClicked: {
                         if (fileChooserView.isDecompress) {
                             if (compressionController) {
@@ -430,7 +369,7 @@ ApplicationWindow {
         }
     }
 
-    // Corpus Dashboard with dark theme
+    // Corpus Dashboard
     Dialog {
         id: corpusDashboardView
         title: "Lifetime Corpus Model Dashboard"
@@ -438,12 +377,6 @@ ApplicationWindow {
         height: 600
         visible: false
         modal: true
-
-        background: Rectangle {
-            color: bgMedium
-            border.color: "#00bcd4"
-            border.width: 2
-        }
 
         ColumnLayout {
             anchors.fill: parent
@@ -565,18 +498,6 @@ ApplicationWindow {
                 Button {
                     text: "Refresh"
                     Layout.preferredWidth: 100
-                    background: Rectangle {
-                        color: bgLight
-                        border.color: accentGreen
-                        border.width: 1
-                        radius: 4
-                    }
-                    contentItem: Text {
-                        text: parent.text
-                        color: textPrimary
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
                     onClicked: {
                         if (lcmStatsViewModel) {
                             lcmStatsViewModel.refresh()
@@ -587,25 +508,13 @@ ApplicationWindow {
                 Button {
                     text: "Close"
                     Layout.preferredWidth: 100
-                    background: Rectangle {
-                        color: bgLight
-                        border.color: textTertiary
-                        border.width: 1
-                        radius: 4
-                    }
-                    contentItem: Text {
-                        text: parent.text
-                        color: textSecondary
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
                     onClicked: corpusDashboardView.close()
                 }
             }
         }
     }
 
-    // Settings Dialog with dark theme
+    // Settings Dialog
     Dialog {
         id: settingsView
         title: "Settings"
@@ -613,12 +522,6 @@ ApplicationWindow {
         height: 450
         visible: false
         modal: true
-
-        background: Rectangle {
-            color: bgMedium
-            border.color: textTertiary
-            border.width: 2
-        }
 
         ColumnLayout {
             anchors.fill: parent
@@ -649,12 +552,6 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 readOnly: true
                 text: "Default location"
-                background: Rectangle {
-                    color: bgDark
-                    border.color: textTertiary
-                    border.width: 1
-                    radius: 4
-                }
                 color: textTertiary
             }
 
@@ -670,15 +567,6 @@ ApplicationWindow {
                 to: 9
                 value: 3
                 editable: true
-                background: Rectangle {
-                    color: bgDark
-                    border.color: accentBlue
-                    border.width: 1
-                    radius: 4
-                }
-                contentItem: TextInput {
-                    color: textPrimary
-                }
             }
 
             Item { Layout.fillHeight: true }
@@ -691,18 +579,6 @@ ApplicationWindow {
                 Button {
                     text: "Close"
                     Layout.preferredWidth: 100
-                    background: Rectangle {
-                        color: bgLight
-                        border.color: textTertiary
-                        border.width: 1
-                        radius: 4
-                    }
-                    contentItem: Text {
-                        text: parent.text
-                        color: textSecondary
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
                     onClicked: settingsView.close()
                 }
             }

@@ -4,9 +4,6 @@ import RDX 1.0
 
 ScrollView {
     clip: true
-    background: Rectangle {
-        color: "#1a1a1a"
-    }
 
     ListView {
         id: jobList
