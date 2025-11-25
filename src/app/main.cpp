@@ -38,13 +38,31 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("compressionController", &compressionController);
     
     const QUrl url(QStringLiteral("qrc:/RdxMainWindow.qml"));
+    
+    // Add error handling for QML loading
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
+        if (!obj && url == objUrl) {
+            qCritical() << "Failed to load QML file:" << objUrl;
             QCoreApplication::exit(-1);
+        }
     }, Qt::QueuedConnection);
     
+    // Connect to warnings and errors
+    QObject::connect(&engine, &QQmlApplicationEngine::warnings, 
+                     [](const QList<QQmlError> &warnings) {
+        for (const auto &warning : warnings) {
+            qWarning() << "QML Warning:" << warning.toString();
+        }
+    });
+    
     engine.load(url);
+    
+    // Check for errors after loading
+    if (engine.rootObjects().isEmpty()) {
+        qCritical() << "Failed to load QML. Root objects are empty.";
+        return -1;
+    }
     
     return app.exec();
 }

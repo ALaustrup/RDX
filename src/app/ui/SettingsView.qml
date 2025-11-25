@@ -40,6 +40,7 @@ Dialog {
             from: 1
             to: 9
             value: 3
+            editable: true
         }
 
         Button {

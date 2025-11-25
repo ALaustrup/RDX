@@ -53,28 +53,33 @@ ApplicationWindow {
             Button {
                 Layout.fillWidth: true
                 text: "Compress Files"
-                onClicked: fileChooserView.visible = true
+                onClicked: {
+                    console.log("Compress Files - FileChooserView disabled for now");
+                }
             }
 
             Button {
                 Layout.fillWidth: true
                 text: "Decompress"
                 onClicked: {
-                    // Open file dialog for archive
-                    fileChooserView.visible = true
+                    console.log("Decompress - FileChooserView disabled for now");
                 }
             }
 
             Button {
                 Layout.fillWidth: true
                 text: "Corpus Dashboard"
-                onClicked: corpusDashboardView.visible = true
+                onClicked: {
+                    corpusDashboardView.visible = true;
+                }
             }
 
             Button {
                 Layout.fillWidth: true
                 text: "Settings"
-                onClicked: settingsView.visible = true
+                onClicked: {
+                    settingsView.visible = true;
+                }
             }
         }
 
@@ -88,31 +93,146 @@ ApplicationWindow {
                 text: "Compression Jobs"
                 font.pixelSize: 20
                 font.bold: true
+                color: "#333333"
             }
 
-            JobListView {
+            Text {
+                text: "No compression jobs yet.\n\nUse the buttons on the left to:\n• Compress files into .rdx archives\n• Decompress .rdx archives\n• View corpus statistics\n• Access settings"
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                color: "#666666"
+                font.pixelSize: 14
+                wrapMode: Text.WordWrap
             }
         }
     }
 
-    // File Chooser Dialog
-    FileChooserView {
-        id: fileChooserView
-        visible: false
-    }
+    // File Chooser Dialog - disabled for now
+    // FileChooserView {
+    //     id: fileChooserView
+    //     visible: false
+    // }
 
-    // Corpus Dashboard
-    CorpusDashboardView {
+    // Corpus Dashboard - simplified version
+    Dialog {
         id: corpusDashboardView
+        title: "Lifetime Corpus Model Dashboard"
+        width: 700
+        height: 500
         visible: false
+        modal: true
+
+        ColumnLayout {
+            anchors.fill: parent
+            anchors.margins: 20
+
+            Text {
+                text: "Corpus Statistics"
+                font.pixelSize: 18
+                font.bold: true
+            }
+
+            Text {
+                text: "Total Files Tracked: " + (lcmStatsViewModel ? lcmStatsViewModel.totalFiles : 0)
+                font.pixelSize: 14
+            }
+
+            Text {
+                text: "Total Corpus Size: " + (lcmStatsViewModel ? (lcmStatsViewModel.totalCorpusSize / 1024.0 / 1024.0).toFixed(2) : "0.00") + " MB"
+                font.pixelSize: 14
+            }
+
+            Text {
+                text: "Top Schemas:"
+                font.pixelSize: 14
+                font.bold: true
+            }
+
+            Text {
+                text: lcmStatsViewModel ? lcmStatsViewModel.topSchemas : "N/A"
+                font.pixelSize: 12
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+            }
+
+            Text {
+                text: "Top File Types:"
+                font.pixelSize: 14
+                font.bold: true
+            }
+
+            Text {
+                text: lcmStatsViewModel ? lcmStatsViewModel.topFileTypes : "N/A"
+                font.pixelSize: 12
+                Layout.fillWidth: true
+                wrapMode: Text.WordWrap
+            }
+
+            Button {
+                text: "Refresh"
+                onClicked: {
+                    if (lcmStatsViewModel) {
+                        lcmStatsViewModel.refresh();
+                    }
+                }
+            }
+
+            Button {
+                text: "Close"
+                onClicked: corpusDashboardView.close()
+            }
+        }
     }
 
-    // Settings View
-    SettingsView {
+    // Settings View - using a simple version for now
+    Dialog {
         id: settingsView
+        title: "Settings"
+        width: 500
+        height: 400
         visible: false
+        modal: true
+
+        ColumnLayout {
+            anchors.fill: parent
+            anchors.margins: 20
+
+            Text {
+                text: "RDX Settings"
+                font.pixelSize: 18
+                font.bold: true
+            }
+
+            Text {
+                text: "LCM Database Path:"
+                font.pixelSize: 12
+            }
+
+            TextField {
+                id: lcmPathField
+                Layout.fillWidth: true
+                readOnly: true
+                text: "Default location"
+            }
+
+            Text {
+                text: "Compression Level:"
+                font.pixelSize: 12
+            }
+
+            SpinBox {
+                id: compressionLevel
+                from: 1
+                to: 9
+                value: 3
+                editable: true
+            }
+
+            Button {
+                text: "Close"
+                onClicked: settingsView.close()
+            }
+        }
     }
 }
 
