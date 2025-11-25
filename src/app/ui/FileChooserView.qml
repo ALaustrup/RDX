@@ -1,6 +1,5 @@
 import QtQuick 6.0
 import QtQuick.Controls 6.0
-import Qt.labs.platform 1.1 as Platform
 
 Dialog {
     id: fileChooserDialog
@@ -19,37 +18,56 @@ Dialog {
             text: isDecompress ? "Select Archive to Decompress" : "Select Files to Compress"
             font.pixelSize: 16
             font.bold: true
+            color: "#333333"
+        }
+
+        Text {
+            text: "File Path:"
+            font.pixelSize: 12
+            color: "#333333"
+        }
+
+        TextField {
+            id: inputPathField
+            Layout.fillWidth: true
+            placeholderText: isDecompress ? "Enter path to .rdx archive..." : "Enter path to file(s) to compress..."
         }
 
         Button {
-            text: isDecompress ? "Choose Archive..." : "Choose Files..."
+            text: "Browse..."
             onClicked: {
-                if (isDecompress) {
-                    archiveDialog.open()
-                } else {
-                    fileDialog.open()
-                }
+                // TODO: Implement native file dialog via C++ backend
+                console.log("File browser - to be implemented via C++ backend")
             }
+        }
+
+
+        Text {
+            text: "Output Path:"
+            font.pixelSize: 12
+            color: "#333333"
         }
 
         TextField {
             id: outputPathField
             Layout.fillWidth: true
-            placeholderText: "Output path..."
+            placeholderText: isDecompress ? "Extract to folder..." : "Save archive as..."
         }
 
         RowLayout {
             Button {
                 text: "OK"
+                enabled: inputPathField.text !== "" && outputPathField.text !== ""
                 onClicked: {
                     if (isDecompress) {
-                        compressionController.decompressArchive(archiveDialog.fileUrl, outputPathField.text)
-                    } else {
-                        var files = []
-                        for (var i = 0; i < fileDialog.fileUrls.length; i++) {
-                            files.push(fileDialog.fileUrls[i])
+                        if (compressionController) {
+                            compressionController.decompressArchive(inputPathField.text, outputPathField.text)
                         }
-                        compressionController.compressFiles(files, outputPathField.text)
+                    } else {
+                        if (compressionController) {
+                            var files = [inputPathField.text]
+                            compressionController.compressFiles(files, outputPathField.text)
+                        }
                     }
                     fileChooserDialog.close()
                 }
@@ -62,17 +80,10 @@ Dialog {
         }
     }
 
-    Platform.FileDialog {
-        id: fileDialog
-        title: "Select Files"
-        fileMode: Platform.FileDialog.OpenFiles
-    }
-
-    Platform.FileDialog {
-        id: archiveDialog
-        title: "Select Archive"
-        nameFilters: ["RDX Archives (*.rdx)"]
-        fileMode: Platform.FileDialog.OpenFile
+    // File dialogs will be handled via C++ backend
+    // For now, use text input for file paths
+    Component.onCompleted: {
+        // Initialize
     }
 }
 

@@ -54,7 +54,10 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 text: "Compress Files"
                 onClicked: {
-                    console.log("Compress Files - FileChooserView disabled for now");
+                    fileChooserView.isDecompress = false;
+                    fileChooserView.inputPathField.text = "";
+                    fileChooserView.outputPathField.text = "";
+                    fileChooserView.visible = true;
                 }
             }
 
@@ -62,7 +65,10 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 text: "Decompress"
                 onClicked: {
-                    console.log("Decompress - FileChooserView disabled for now");
+                    fileChooserView.isDecompress = true;
+                    fileChooserView.inputPathField.text = "";
+                    fileChooserView.outputPathField.text = "";
+                    fileChooserView.visible = true;
                 }
             }
 
@@ -107,11 +113,85 @@ ApplicationWindow {
         }
     }
 
-    // File Chooser Dialog - disabled for now
-    // FileChooserView {
-    //     id: fileChooserView
-    //     visible: false
-    // }
+    // File Chooser Dialog - inlined
+    Dialog {
+        id: fileChooserView
+        title: "Select Files to Compress"
+        width: 600
+        height: 400
+        visible: false
+        modal: true
+
+        property bool isDecompress: false
+
+        ColumnLayout {
+            anchors.fill: parent
+            anchors.margins: 20
+
+            Text {
+                text: fileChooserView.isDecompress ? "Select Archive to Decompress" : "Select Files to Compress"
+                font.pixelSize: 16
+                font.bold: true
+                color: "#333333"
+            }
+
+            Text {
+                text: "File Path:"
+                font.pixelSize: 12
+                color: "#333333"
+            }
+
+            TextField {
+                id: inputPathField
+                Layout.fillWidth: true
+                placeholderText: fileChooserView.isDecompress ? "Enter path to .rdx archive..." : "Enter path to file(s) to compress..."
+            }
+
+            Button {
+                text: "Browse..."
+                onClicked: {
+                    console.log("File browser - to be implemented via C++ backend")
+                }
+            }
+
+            Text {
+                text: "Output Path:"
+                font.pixelSize: 12
+                color: "#333333"
+            }
+
+            TextField {
+                id: outputPathField
+                Layout.fillWidth: true
+                placeholderText: fileChooserView.isDecompress ? "Extract to folder..." : "Save archive as..."
+            }
+
+            RowLayout {
+                Button {
+                    text: "OK"
+                    enabled: inputPathField.text !== "" && outputPathField.text !== ""
+                    onClicked: {
+                        if (fileChooserView.isDecompress) {
+                            if (compressionController) {
+                                compressionController.decompressArchive(inputPathField.text, outputPathField.text)
+                            }
+                        } else {
+                            if (compressionController) {
+                                var files = [inputPathField.text]
+                                compressionController.compressFiles(files, outputPathField.text)
+                            }
+                        }
+                        fileChooserView.close()
+                    }
+                }
+
+                Button {
+                    text: "Cancel"
+                    onClicked: fileChooserView.close()
+                }
+            }
+        }
+    }
 
     // Corpus Dashboard - simplified version
     Dialog {
