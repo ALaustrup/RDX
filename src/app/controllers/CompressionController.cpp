@@ -54,6 +54,7 @@ void CompressionController::compressFiles(const QStringList& filePaths, const QS
             }
         } catch (const std::exception& e) {
             jobViewModel_.setJobError(jobIndex, QString::fromStdString(e.what()));
+            jobViewModel_.updateJobStatus(jobIndex, JobStatus::Failed);
         }
     }
     
